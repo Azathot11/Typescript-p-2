@@ -1,33 +1,35 @@
 import {type FC, type ComponentPropsWithoutRef} from 'react';
 
-type AnchorProps = {
-    label: string;
-    mode:'link'
-
-} & ComponentPropsWithoutRef<'a'>;
+type AnchorProps = ComponentPropsWithoutRef<'a'>&{
+    href?:string
+};
 
 
 type ButtonProps = {
     label: string;
-    mode:'button'
     buttonType:'submit'|'reset'|'delete'|'button'
-
-}& ComponentPropsWithoutRef<'button'>;
+}& ComponentPropsWithoutRef<'button'> &{
+    href?:never
+};
 
 
 type CombinedProps =  AnchorProps| ButtonProps
 
+const isAnchorProps = (props: CombinedProps): props is AnchorProps => {
+    return 'href' in props;
+}
+
 const Button:FC<CombinedProps> = (props) => {
 
-const {label}=props
 
-    if(props.mode==='link'){
+
+    if(isAnchorProps(props)){
         return (
-            <a {...props} >{label}</a>
+            <a className={'button'} {...props} ></a>
         )
     }
     return (
-        <button {...props}>{label}</button>
+        <button className={'button'} {...props}></button>
     );
 };
 
