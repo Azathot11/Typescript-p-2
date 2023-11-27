@@ -12,6 +12,7 @@ const Input: FC<InputsProps> = ({id,label, ...props}) => {
             <label htmlFor={id}>{label}</label>
             <input
                 id={id}
+                name={id}
                 {...props}
             />
         </p>
